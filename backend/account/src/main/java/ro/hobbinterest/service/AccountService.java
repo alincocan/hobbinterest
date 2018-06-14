@@ -8,9 +8,9 @@ import java.util.List;
 public interface AccountService {
 
     Account getById(String id);
-    void createAccount(Account account);
-    void deleteAccount(String id);
-    void suspendAccount(String id);
+    String createAccount(Account account);
+    String deleteAccount(String id);
+    String suspendAccount(String id);
     Page<Account> getAll(int page, int pageSize);
 
 }

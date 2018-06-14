@@ -25,8 +25,7 @@ public class AccountController {
 
     @RequestMapping(value = "create", method = RequestMethod.POST)
     public Object createAccount(@RequestBody Account account) {
-        accountService.createAccount(account);
-        return new ResponseEntity<String>(HttpStatus.OK.value());
+        return new ResponseEntity<>(HttpStatus.OK.value(), accountService.createAccount(account));
     }
 
     @RequestMapping(value = "findAll", method = RequestMethod.GET)
@@ -40,4 +39,13 @@ public class AccountController {
         return accountService.getById(id);
     }
 
+    @RequestMapping(value = "delete", method = RequestMethod.DELETE)
+    public Object deleteAccount(@RequestParam(name = "id") String id) {
+        return new ResponseEntity<>(HttpStatus.OK.value(), accountService.deleteAccount(id));
+    }
+
+    @RequestMapping(value = "suspend", method = RequestMethod.PATCH)
+    public Object suspendAccount(@RequestParam(name = "id") String id) {
+        return new ResponseEntity<>(HttpStatus.OK.value(), accountService.suspendAccount(id));
+    }
 }
