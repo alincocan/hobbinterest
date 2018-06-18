@@ -11,8 +11,9 @@ import java.awt.print.Pageable;
 import java.util.List;
 import java.util.Optional;
 
-@Repository("accountRepository")
-public interface AccountRepository {
+//@Repository("accountRepository")
+@EnableScan
+public interface AccountRepository extends CrudRepository<Account, String> , PagingAndSortingRepository<Account, String>{
 
     Optional<Account> findByEmail(String email);
 }

@@ -15,9 +15,10 @@ import org.springframework.util.StringUtils;
 @Configuration
 @ImportResource("classpath:application-config.xml")
 @ComponentScan(basePackages = "ro.hobbinterest.repository.")
+@EnableDynamoDBRepositories
 public class SpringConfiguration {
 
-    private String amazonDynamoDBEndpoint = "";
+    private String amazonDynamoDBEndpoint = "http://localhost:8000";
     private String amazonAWSAccessKey = "";
     private String amazonAWSSecretKey = "";
 

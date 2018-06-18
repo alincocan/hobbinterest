@@ -30,7 +30,7 @@
         <dependency>
             <groupId>com.github.derjust</groupId>
             <artifactId>spring-data-dynamodb</artifactId>
-            <version>4.3.1</version>
+            <version>5.0.2</version>
         </dependency>
 
         <dependency>
@@ -52,6 +52,14 @@
             <artifactId>spring-test</artifactId>
             <version>5.0.6.RELEASE</version>
             <scope>test</scope>
+        </dependency>
+
+
+        <!-- https://mvnrepository.com/artifact/org.reflections/reflections -->
+        <dependency>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+            <version>0.9.10</version>
         </dependency>
 
     </dependencies>
