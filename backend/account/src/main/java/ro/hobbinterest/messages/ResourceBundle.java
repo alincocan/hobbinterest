@@ -5,7 +5,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.stereotype.Component;
 
-@Component
+@Component("messages")
 public class ResourceBundle {
 
     private static final long serialVersionUID = 4403931990849871689L;

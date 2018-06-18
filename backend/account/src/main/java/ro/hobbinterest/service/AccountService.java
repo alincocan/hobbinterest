@@ -1,6 +1,7 @@
 package ro.hobbinterest.service;
 
 import org.springframework.data.domain.Page;
+import org.springframework.validation.BindingResult;
 import ro.hobbinterest.entities.Account;
 
 import java.util.List;
