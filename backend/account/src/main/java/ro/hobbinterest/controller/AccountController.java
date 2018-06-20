@@ -3,10 +3,15 @@ package ro.hobbinterest.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import ro.hobbinterest.entities.Account;
 import ro.hobbinterest.response.ResponseEntity;
 import ro.hobbinterest.service.AccountService;
+
+import javax.validation.Valid;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -24,7 +29,10 @@ public class AccountController {
     }
 
     @RequestMapping(value = "create", method = RequestMethod.POST)
-    public Object createAccount(@RequestBody Account account) {
+    public Object createAccount(@Valid @RequestBody Account account, Errors errors) {
+        if(errors.hasErrors()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST.value(), errors.getAllErrors().stream().map(x -> x.getDefaultMessage()));
+        }
         return new ResponseEntity<>(HttpStatus.OK.value(), accountService.createAccount(account));
     }
 

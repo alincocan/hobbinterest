@@ -6,9 +6,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import ro.hobbinterest.entities.Account;
 import ro.hobbinterest.exceptions.AccountNotFoundException;
+import ro.hobbinterest.exceptions.DuplicateAccountException;
 import ro.hobbinterest.messages.ResourceBundle;
 import ro.hobbinterest.repository.AccountRepository;
 
+import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 @Service("accountService")
@@ -38,6 +41,13 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public String createAccount(Account account) {
+        final String ACCOUNT_DUPLICATE = "account_duplicate";
+        List<Account> dbAccount = accountRepository.findByEmail(account.getEmail());
+        if(dbAccount.size()>0) {
+            if(account.getId() == null || (!account.getId().equalsIgnoreCase(dbAccount.get(0).getId()) )) {
+                throw new DuplicateAccountException(messages.getMessage(ACCOUNT_DUPLICATE));
+            }
+        }
         accountRepository.save(account);
         return messages.getMessage(ACCOUNT_CREATED);
     }
@@ -46,7 +56,7 @@ public class AccountServiceImpl implements AccountService {
     public String deleteAccount(String id) {
         Optional<Account> account = accountRepository.findById(id);
         if(!account.isPresent()) throw new AccountNotFoundException(messages.getMessage(ACCOUNT_NOT_FOUND));
-//
+
         accountRepository.delete(account.get());
         return messages.getMessage(ACCOUNT_DELETED);
 

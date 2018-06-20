@@ -14,7 +14,7 @@ import org.springframework.util.StringUtils;
 
 @Configuration
 @ImportResource("classpath:application-config.xml")
-@ComponentScan(basePackages = "ro.hobbinterest.repository.")
+@ComponentScan(basePackages = "ro.hobbinterest")
 @EnableDynamoDBRepositories
 public class SpringConfiguration {
 
