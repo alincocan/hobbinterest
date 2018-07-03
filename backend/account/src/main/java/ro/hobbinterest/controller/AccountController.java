@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("account")
+@CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*",methods = {RequestMethod.GET,RequestMethod.POST})
 public class AccountController {
 
     private final AccountService accountService;

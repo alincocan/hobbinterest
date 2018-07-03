@@ -78,7 +78,7 @@ export class FuseRegisterComponent implements OnInit
     }
 
     onSubmit(value: any) {
-      this.authenticationService.createUser(value).subscribe(
+      this.authenticationService.createAccount(value).subscribe(
         response => {
           if (response.status === 200) {
             this.router.navigate(['/login']);

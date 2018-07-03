@@ -1,46 +1,54 @@
 package ro.hobbinterest;
 
-import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
-import com.amazonaws.services.dynamodbv2.document.DynamoDB;
-import org.socialsignin.spring.data.dynamodb.repository.config.EnableDynamoDBRepositories;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
+import com.mongodb.MongoCredential;
+import com.mongodb.client.MongoDatabase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
-import org.springframework.util.StringUtils;
+import org.springframework.data.mongodb.core.MongoClientFactoryBean;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @Configuration
 @ImportResource("classpath:application-config.xml")
 @ComponentScan(basePackages = "ro.hobbinterest")
-@EnableDynamoDBRepositories
+@EnableMongoRepositories(basePackages = "ro.hobbinterest.repository")
 public class SpringConfiguration {
 
-    private String amazonDynamoDBEndpoint = "http://localhost:8000";
-    private String amazonAWSAccessKey = "";
-    private String amazonAWSSecretKey = "";
-
     @Bean
-    public DynamoDB dynamoDB() {
-        return new DynamoDB(amazonDynamoDB());
+    public MongoClientURI uri() {
+        return new MongoClientURI("mongodb+srv://admin:<admin>@hobbinterest-xnijj.mongodb.net/test?retryWrites=true");
     }
 
     @Bean
-    public AmazonDynamoDB amazonDynamoDB() {
-        AmazonDynamoDB amazonDynamoDB = new AmazonDynamoDBClient(awsCredentials());
-
-        if(!StringUtils.isEmpty(amazonDynamoDBEndpoint)) {
-            amazonDynamoDB.setEndpoint(amazonDynamoDBEndpoint);
-        }
-        return amazonDynamoDB;
-
+    public MongoClient mongoClient() {
+        return new MongoClient(uri());
     }
 
+    @Bean
+    public MongoDatabase database() {
+        return mongoClient().getDatabase("hobbinterest_db");
+    }
 
     @Bean
-    public AWSCredentials awsCredentials() {
-        return new BasicAWSCredentials(amazonAWSAccessKey, amazonAWSAccessKey);
+    public MongoCredential mongoCredential() {
+        char[] password = new char[]{'a','d','m','n'};
+        return MongoCredential.createCredential("admin", "hibbinterest_db", password);
+    }
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**");
+            }
+        };
     }
 }

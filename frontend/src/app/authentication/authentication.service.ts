@@ -7,25 +7,25 @@ import {CrudService} from "../core/services/crud.service";
 @Injectable()
 export class AuthenticationService extends CrudService {
 
-  constructor(public http: HttpClient) { super(http);}
+  constructor(public http: HttpClient) { super(http); }
 
   login(username: string, password: string): Observable<any> {
 
     username = encodeURIComponent(username);
     password = encodeURIComponent(password);
-    let body = 'j_username='+username+ "&j_password="+password;
-    let headers = new HttpHeaders({'Content-Type': 'application/x-www-form-urlencoded'});
+    const body = 'j_username=' + username + '&j_password=' + password;
+    const headers = new HttpHeaders({'Content-Type': 'application/x-www-form-urlencoded'});
 
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/x-www-form-urlencoded'
       })
     };
-    return this.http.post('http://localhost:8090/hobbinterest/login',body,httpOptions);
+    return this.http.post('http://localhost:8090/hobbinterest/login', body, httpOptions);
   }
 
-  createUser(user: any): Observable<any> {
-    return this.saveObject(URL + '/user/POST/create',user);
+  createAccount(user: any): Observable<any> {
+    return this.saveObject(URL + 'account/create', user);
   }
 
 }
